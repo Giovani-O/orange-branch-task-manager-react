@@ -1,5 +1,11 @@
+import { BrowserRouter } from 'react-router-dom'
 import './styles/output.css'
+import { Router } from './Router'
 
 export function App() {
-  return <h1 className="text-4xl text-indigo-600">Hello World</h1>
+  return (
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
+  )
 }

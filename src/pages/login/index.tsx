@@ -2,11 +2,14 @@ import { SignIn } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../axios-api'
 import { ChangeEvent, MouseEvent, useState } from 'react'
+import { Bounce, toast } from 'react-toastify'
 
 export function Login() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
 
   function handleEmailChange(event: ChangeEvent<HTMLInputElement>) {
     setEmail(event.target.value)
@@ -23,13 +26,38 @@ export function Login() {
       email: email,
       password: password,
     }
+
+    console.log(request)
     api
       .post('api/Authentication/login', request)
       .then(() => {
+        toast.success('Bem vindo!', {
+          position: 'top-right',
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce,
+        })
         navigate('/home')
       })
       .catch((error) => {
-        console.log('Tratar erro: ', error)
+        toast.error(error.response.data.title, {
+          position: 'top-right',
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce,
+        })
+        setEmailError(error.response.data.errors['Email'][0] || '')
+        setPasswordError(error.response.data.errors['Password'][0] || '')
       })
   }
 
@@ -56,12 +84,14 @@ export function Login() {
           className="px-4 py-2 border-b border-gray-400 rounded-md w-[480px] max-lg:w-11/12 transition duration-300 ease-in-out focus:border-blue-400 focus:border-b outline-none"
           onChange={handleEmailChange}
         />
+        {emailError && <span className="text-xs">{emailError}</span>}
         <input
           type="password"
           placeholder="Senha"
           className="px-4 py-2 border-b border-gray-400 rounded-md w-[480px] max-lg:w-11/12 transition duration-300 ease-in-out focus:border-blue-400 focus:border-b outline-none"
           onChange={handlePasswordChange}
         />
+        {passwordError && <span className="text-xs">{passwordError}</span>}
         <button
           type="submit"
           className="flex flex-row items-center justify-center gap-4 bg-gradient-to-tl from-orange-700 via-orange-400 to-amber-400 text-white font-bold rounded-md w-[480px] max-lg:w-11/12 px-4 py-2 transition duration-300 ease-in-out hover:bg-opacity-10"

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { api } from '../../axios-api'
 import { ChangeEvent, MouseEvent, useState } from 'react'
 import { Bounce, toast } from 'react-toastify'
+import { InputErrorMessage } from '../../components/input-error-message'
+import { TextInput } from '../../components/text-input'
 
 export function Login() {
   const navigate = useNavigate()
@@ -13,10 +15,12 @@ export function Login() {
 
   function handleEmailChange(event: ChangeEvent<HTMLInputElement>) {
     setEmail(event.target.value)
+    setEmailError('')
   }
 
   function handlePasswordChange(event: ChangeEvent<HTMLInputElement>) {
     setPassword(event.target.value)
+    setPasswordError('')
   }
 
   function signIn(event: MouseEvent<HTMLButtonElement>) {
@@ -78,20 +82,21 @@ export function Login() {
 
       <form className="flex flex-col gap-6 items-center justify-center w-2/5 h-screen max-lg:w-full">
         <h1 className="font-bold text-xl text-zinc-700">Acesse sua conta</h1>
-        <input
-          type="email"
+
+        <TextInput
+          inputType="email"
           placeholder="Email"
-          className="px-4 py-2 border-b border-gray-400 rounded-md w-[480px] max-lg:w-11/12 transition duration-300 ease-in-out focus:border-blue-400 focus:border-b outline-none"
-          onChange={handleEmailChange}
+          errorMessage={emailError}
+          handleChangeFunction={handleEmailChange}
         />
-        {emailError && <span className="text-xs">{emailError}</span>}
-        <input
-          type="password"
+        {emailError && <InputErrorMessage message={emailError} />}
+        <TextInput
+          inputType="password"
           placeholder="Senha"
-          className="px-4 py-2 border-b border-gray-400 rounded-md w-[480px] max-lg:w-11/12 transition duration-300 ease-in-out focus:border-blue-400 focus:border-b outline-none"
-          onChange={handlePasswordChange}
+          errorMessage={passwordError}
+          handleChangeFunction={handlePasswordChange}
         />
-        {passwordError && <span className="text-xs">{passwordError}</span>}
+        {passwordError && <InputErrorMessage message={passwordError} />}
         <button
           type="submit"
           className="flex flex-row items-center justify-center gap-4 bg-gradient-to-tl from-orange-700 via-orange-400 to-amber-400 text-white font-bold rounded-md w-[480px] max-lg:w-11/12 px-4 py-2 transition duration-300 ease-in-out hover:bg-opacity-10"

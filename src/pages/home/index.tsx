@@ -3,7 +3,7 @@ import { SignOut } from '@phosphor-icons/react'
 export function Home() {
   return (
     <div>
-      <header className="flex items-center justify-between px-4 bg-transparent w-screen h-[60px] shadow-lg fixed">
+      <header className="flex items-center justify-between px-4 bg-transparent w-screen h-[60px] shadow-md fixed">
         <h1 className="text-2xl">Orange Tasks</h1>
         <div className="flex gap-4">
           <h1 className="flex flex-row items-center justify-center text-md">

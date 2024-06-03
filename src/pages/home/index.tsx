@@ -3,19 +3,23 @@ import { ListItem } from '../../components/list-item'
 import { api } from '../../axios-api'
 import { useEffect } from 'react'
 import Cookies from 'js-cookie'
+import { useTasksStore } from '../../store'
 
 export function Home() {
+  const { tasks, addTasks } = useTasksStore()
+
   function getTasks() {
-    const token = Cookies.get('token-string')
+    const tokenCookie = Cookies.get('token-string')
 
     api
       .get('api/Tasks', {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${tokenCookie}`,
         },
       })
       .then((response) => {
         console.log(response)
+        addTasks(response.data)
       })
       .catch((error) => {
         console.error(error)
@@ -60,10 +64,9 @@ export function Home() {
           className="w-[1120px] max-lg:w-11/12 my-8 px-4 py-2 border-b border-gray-300 rounded-md transition duration-300 ease-in-out focus:border-blue-400 focus:border-b outline-none"
         />
 
-        <ListItem />
-        <ListItem />
-        <ListItem />
-        <ListItem />
+        {tasks.map((task) => (
+          <ListItem key={task.id} id={task.id} />
+        ))}
       </main>
     </div>
   )

@@ -5,6 +5,7 @@ import { ChangeEvent, MouseEvent, useState } from 'react'
 import { Bounce, toast } from 'react-toastify'
 import { InputErrorMessage } from '../../components/input-error-message'
 import { TextInput } from '../../components/text-input'
+import Cookies from 'js-cookie'
 
 export function Login() {
   const navigate = useNavigate()
@@ -34,7 +35,7 @@ export function Login() {
     console.log(request)
     api
       .post('api/Authentication/login', request)
-      .then(() => {
+      .then((response) => {
         toast.success('Bem vindo!', {
           position: 'top-right',
           autoClose: 4000,
@@ -46,6 +47,11 @@ export function Login() {
           theme: 'light',
           transition: Bounce,
         })
+
+        Cookies.set('token-string', response.data.token, {
+          expires: new Date(response.data.validTo),
+        })
+
         navigate('/home')
       })
       .catch((error) => {

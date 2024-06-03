@@ -1,7 +1,31 @@
 import { OrangeSlice, Plus, SignOut } from '@phosphor-icons/react'
 import { ListItem } from '../../components/list-item'
+import { api } from '../../axios-api'
+import { useEffect } from 'react'
+import Cookies from 'js-cookie'
 
 export function Home() {
+  function getTasks() {
+    const token = Cookies.get('token-string')
+
+    api
+      .get('api/Tasks', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  useEffect(() => {
+    getTasks()
+  }, [])
+
   return (
     <div>
       <header className="flex items-center justify-between px-4 bg-transparent w-screen h-[60px] border-b border-gray-200 fixed">

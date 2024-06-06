@@ -2,6 +2,7 @@ import { ChangeEvent } from 'react'
 
 interface TextInputProps {
   inputType: 'text' | 'email' | 'password' | 'date'
+  value?: string
   placeholder: string
   errorMessage: string
   handleChangeFunction: (event: ChangeEvent<HTMLInputElement>) => void
@@ -9,6 +10,7 @@ interface TextInputProps {
 
 export function TextInput({
   inputType,
+  value,
   placeholder,
   errorMessage,
   handleChangeFunction,
@@ -16,6 +18,7 @@ export function TextInput({
   return (
     <input
       type={inputType}
+      value={value ? value : ''}
       placeholder={placeholder}
       className={`px-4 py-2 border-b ${
         errorMessage ? 'border-red-500' : 'border-gray-400'

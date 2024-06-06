@@ -13,6 +13,11 @@ export function DeleteAlert({ closeAlert }: DeleteAlertProps) {
     useTasksStore()
   const task = tasks.find((task) => task.id === selectedTaskId)
 
+  function closeAndCleanAlert() {
+    removeSelectedTaskId()
+    closeAlert()
+  }
+
   function deleteTask() {
     api
       .delete(`/api/Tasks?id=${selectedTaskId}`, {
@@ -42,7 +47,7 @@ export function DeleteAlert({ closeAlert }: DeleteAlertProps) {
         </Alert.Description>
         <div className="flex justify-between gap-4 w-full">
           <Alert.Cancel
-            onClick={closeAlert}
+            onClick={closeAndCleanAlert}
             className="border w-full rounded-md px-4 py-2 transition duration-300 ease-in-out hover:bg-black hover:bg-opacity-10"
           >
             Cancelar

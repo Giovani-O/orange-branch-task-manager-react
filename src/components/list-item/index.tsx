@@ -17,6 +17,7 @@ export function ListItem({ id }: ListItemProps) {
   const task = tasks.find((task) => task.id === id)
 
   function openDialog() {
+    setSelectedTaskId(id)
     setIsDialogOpen(true)
   }
   function closeDialog() {

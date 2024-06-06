@@ -5,6 +5,7 @@ import { ChangeEvent, MouseEvent, useState } from 'react'
 import { api } from '../../axios-api'
 import Cookies from 'js-cookie'
 import { useTasksStore } from '../../store'
+import { InputErrorMessage } from '../input-error-message'
 
 interface TaskModalProps {
   closeDialog: () => void
@@ -20,7 +21,12 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
 
   const tokenCookie = Cookies.get('token-string')
 
-  const { tasks, addTasks } = useTasksStore()
+  const { tasks, addTasks, updateTask, selectedTaskId, removeSelectedTaskId } =
+    useTasksStore()
+
+  const task = selectedTaskId
+    ? tasks.find((task) => task.id === selectedTaskId)
+    : null
 
   function handleChangeTitle(event: ChangeEvent<HTMLInputElement>) {
     setTitle(event.target.value)
@@ -64,6 +70,34 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
       })
   }
 
+  function editTask(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
+
+    const request = {
+      id: selectedTaskId,
+      title: title,
+      description: description,
+      dueDate: dueDate,
+    }
+
+    api
+      .put(`/api/Tasks?id=${selectedTaskId}`, request, {
+        headers: {
+          Authorization: `Bearer ${tokenCookie}`,
+        },
+      })
+      .then((response) => {
+        updateTask(response.data)
+        cleanTaskModal()
+        closeDialog()
+      })
+      .catch((error) => {
+        setTitleError(error.response.data.errors['taskData'][0] || '')
+        setDueDateError(error.response.data.errors['dueDate'][0] || '')
+        setDescriptionError(error.response.data.errors['description'][0] || '')
+      })
+  }
+
   function cleanTaskModal() {
     setTitle('')
     setDueDate(Date.now().toString())
@@ -71,6 +105,12 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
     setTitleError('')
     setDueDateError('')
     setDescriptionError('')
+    removeSelectedTaskId()
+  }
+
+  function closeAndCleanDialog() {
+    closeDialog()
+    cleanTaskModal()
   }
 
   return (
@@ -79,39 +119,45 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
 
       <Dialog.Content className="max-lg:w-11/12 bg-white rounded-md p-6 flex flex-col gap-8 fixed top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
         <div className="flex flex-row-reverse justify-between">
-          <Dialog.Close onClick={closeDialog}>
+          <Dialog.Close onClick={closeAndCleanDialog}>
             <X />
           </Dialog.Close>
 
           <Dialog.Title className="font-bold text-xl text-zinc-700">
-            Visualizar/Editar/Criar
+            {selectedTaskId <= 0 ? 'Adicionar' : 'Editar'}
           </Dialog.Title>
         </div>
 
         <form className="flex flex-col gap-6">
           <TextInput
             inputType="text"
+            value={task?.title}
             placeholder="Título"
             errorMessage={titleError}
             handleChangeFunction={handleChangeTitle}
           />
+          {titleError && <InputErrorMessage message={titleError} />}
 
           <TextInput
             inputType="date"
+            value={task?.dueDate}
             placeholder="Data de entrega"
             errorMessage={dueDateError}
             handleChangeFunction={handleChangeDueDate}
           />
+          {dueDateError && <InputErrorMessage message={dueDateError} />}
 
           <textarea
             className={`px-4 py-2 border rounded-md w-[480px] max-lg:w-11/12 transition duration-300 ease-in-out focus:border-blue-400 focus:border-b outline-none`}
             onChange={handleChangeDescription}
+            value={task?.description}
           />
+          {descriptionError && <InputErrorMessage message={descriptionError} />}
 
           <button
             type="submit"
             className="flex flex-row items-center justify-center gap-4 bg-gradient-to-tl from-orange-700 via-orange-400 to-amber-400 text-white font-bold rounded-md px-4 py-2 transition duration-300 ease-in-out hover:bg-opacity-10"
-            onClick={createTask}
+            onClick={selectedTaskId <= 0 ? createTask : editTask}
           >
             Salvar Tarefa
           </button>

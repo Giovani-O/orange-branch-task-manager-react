@@ -6,9 +6,13 @@ import { api } from '../../axios-api'
 import Cookies from 'js-cookie'
 import { useTasksStore } from '../../store'
 
-export function TaskModal() {
+interface TaskModalProps {
+  closeDialog: () => void
+}
+
+export function TaskModal({ closeDialog }: TaskModalProps) {
   const [title, setTitle] = useState('')
-  const [dueDate, setDueDate] = useState('')
+  const [dueDate, setDueDate] = useState(Date.now().toString())
   const [description, setDescription] = useState('')
   const [titleError, setTitleError] = useState('')
   const [dueDateError, setDueDateError] = useState('')
@@ -49,12 +53,24 @@ export function TaskModal() {
         },
       })
       .then((response) => {
-        console.log(response)
         addTasks([...tasks, response.data])
+        cleanTaskModal()
+        closeDialog()
       })
       .catch((error) => {
-        console.error(error)
+        setTitleError(error.response.data.errors['taskData'][0] || '')
+        setDueDateError(error.response.data.errors['dueDate'][0] || '')
+        setDescriptionError(error.response.data.errors['description'][0] || '')
       })
+  }
+
+  function cleanTaskModal() {
+    setTitle('')
+    setDueDate(Date.now().toString())
+    setDescription('')
+    setTitleError('')
+    setDueDateError('')
+    setDescriptionError('')
   }
 
   return (
@@ -63,7 +79,7 @@ export function TaskModal() {
 
       <Dialog.Content className="max-lg:w-11/12 bg-white rounded-md p-6 flex flex-col gap-8 fixed top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
         <div className="flex flex-row-reverse justify-between">
-          <Dialog.Close>
+          <Dialog.Close onClick={closeDialog}>
             <X />
           </Dialog.Close>
 
@@ -74,14 +90,14 @@ export function TaskModal() {
           <TextInput
             inputType="text"
             placeholder="Título"
-            errorMessage=""
+            errorMessage={titleError}
             handleChangeFunction={handleChangeTitle}
           />
 
           <TextInput
             inputType="date"
             placeholder="Data de entrega"
-            errorMessage=""
+            errorMessage={dueDateError}
             handleChangeFunction={handleChangeDueDate}
           />
 

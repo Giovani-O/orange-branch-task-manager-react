@@ -1,14 +1,22 @@
 import { OrangeSlice, Plus, SignOut } from '@phosphor-icons/react'
 import { ListItem } from '../../components/list-item'
 import { api } from '../../axios-api'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { useTasksStore } from '../../store'
 import * as Dialog from '@radix-ui/react-dialog'
 import { TaskModal } from '../../components/task-modal'
 
 export function Home() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   const { tasks, addTasks } = useTasksStore()
+
+  function openDialog() {
+    setIsDialogOpen(true)
+  }
+  function closeDialog() {
+    setIsDialogOpen(false)
+  }
 
   function getTasks() {
     const tokenCookie = Cookies.get('token-string')
@@ -53,18 +61,17 @@ export function Home() {
         <div className="w-[1120px] max-lg:w-11/12 h-8 flex items-center justify-between">
           <h1 className="text-2xl">Tarefas</h1>
 
-          <Dialog.Root>
-            <Dialog.Trigger asChild>
-              <button
-                type="submit"
-                className="flex flex-row items-center justify-center gap-4 bg-gradient-to-tl from-orange-700 via-orange-400 to-amber-400 text-white font-bold rounded-md px-4 py-2 transition duration-300 ease-in-out hover:bg-opacity-10"
-              >
-                <Plus size={24} />
-                Adicionar
-              </button>
-            </Dialog.Trigger>
+          <Dialog.Root open={isDialogOpen}>
+            <button
+              type="submit"
+              className="flex flex-row items-center justify-center gap-4 bg-gradient-to-tl from-orange-700 via-orange-400 to-amber-400 text-white font-bold rounded-md px-4 py-2 transition duration-300 ease-in-out hover:bg-opacity-10"
+              onClick={openDialog}
+            >
+              <Plus size={24} />
+              Adicionar
+            </button>
 
-            <TaskModal />
+            <TaskModal closeDialog={closeDialog} />
           </Dialog.Root>
         </div>
         <input

@@ -1,13 +1,61 @@
 import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { TextInput } from '../text-input'
+import { ChangeEvent, MouseEvent, useState } from 'react'
+import { api } from '../../axios-api'
+import Cookies from 'js-cookie'
+import { useTasksStore } from '../../store'
 
 export function TaskModal() {
-  function handleChangeTitle() {}
+  const [title, setTitle] = useState('')
+  const [dueDate, setDueDate] = useState('')
+  const [description, setDescription] = useState('')
+  const [titleError, setTitleError] = useState('')
+  const [dueDateError, setDueDateError] = useState('')
+  const [descriptionError, setDescriptionError] = useState('')
 
-  function handleChangeDescription() {}
+  const tokenCookie = Cookies.get('token-string')
 
-  function handleChangeDueDate() {}
+  const { tasks, addTasks } = useTasksStore()
+
+  function handleChangeTitle(event: ChangeEvent<HTMLInputElement>) {
+    setTitle(event.target.value)
+    setTitleError('')
+  }
+
+  function handleChangeDueDate(event: ChangeEvent<HTMLInputElement>) {
+    setDueDate(event.target.value)
+    setDueDateError('')
+  }
+
+  function handleChangeDescription(event: ChangeEvent<HTMLTextAreaElement>) {
+    setDescription(event.target.value)
+    setDescriptionError('')
+  }
+
+  function createTask(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
+
+    const request = {
+      title: title,
+      description: description,
+      dueDate: dueDate,
+    }
+
+    api
+      .post('/api/Tasks', request, {
+        headers: {
+          Authorization: `Bearer ${tokenCookie}`,
+        },
+      })
+      .then((response) => {
+        console.log(response)
+        addTasks([...tasks, response.data])
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
 
   return (
     <Dialog.Portal>
@@ -45,6 +93,7 @@ export function TaskModal() {
           <button
             type="submit"
             className="flex flex-row items-center justify-center gap-4 bg-gradient-to-tl from-orange-700 via-orange-400 to-amber-400 text-white font-bold rounded-md px-4 py-2 transition duration-300 ease-in-out hover:bg-opacity-10"
+            onClick={createTask}
           >
             Salvar Tarefa
           </button>

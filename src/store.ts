@@ -9,12 +9,18 @@ type Task = {
 
 interface TaskStore {
   tasks: Task[]
+  selectedTaskId: number
   addTasks(tasks: Task[]): void
   removeTasks(): void
+  setSelectedTaskId(id: number): void
+  removeSelectedTaskId(): void
 }
 
 export const useTasksStore = create<TaskStore>((set) => ({
   tasks: [] as Task[],
+  selectedTaskId: -1,
   addTasks: (tasks: Task[]) => set({ tasks: tasks }),
   removeTasks: () => set({ tasks: [] }),
+  setSelectedTaskId: (id: number) => set({ selectedTaskId: id }),
+  removeSelectedTaskId: () => set({ selectedTaskId: -1 }),
 }))

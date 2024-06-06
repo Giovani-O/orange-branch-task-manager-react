@@ -83,7 +83,9 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
             <X />
           </Dialog.Close>
 
-          <Dialog.Title>Visualizar/Editar/Adicionar</Dialog.Title>
+          <Dialog.Title className="font-bold text-xl text-zinc-700">
+            Visualizar/Editar/Criar
+          </Dialog.Title>
         </div>
 
         <form className="flex flex-col gap-6">

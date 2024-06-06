@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react'
 
 interface TextInputProps {
-  inputType: 'text' | 'email' | 'password'
+  inputType: 'text' | 'email' | 'password' | 'date'
   placeholder: string
   errorMessage: string
   handleChangeFunction: (event: ChangeEvent<HTMLInputElement>) => void

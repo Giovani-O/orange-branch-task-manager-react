@@ -4,6 +4,8 @@ import { api } from '../../axios-api'
 import { useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { useTasksStore } from '../../store'
+import * as Dialog from '@radix-ui/react-dialog'
+import { TaskModal } from '../../components/task-modal'
 
 export function Home() {
   const { tasks, addTasks } = useTasksStore()
@@ -50,13 +52,20 @@ export function Home() {
       <main className="flex flex-col items-center justify-start pt-[94px] h-screen">
         <div className="w-[1120px] max-lg:w-11/12 h-8 flex items-center justify-between">
           <h1 className="text-2xl">Tarefas</h1>
-          <button
-            type="submit"
-            className="flex flex-row items-center justify-center gap-4 bg-gradient-to-tl from-orange-700 via-orange-400 to-amber-400 text-white font-bold rounded-md px-4 py-2 transition duration-300 ease-in-out hover:bg-opacity-10"
-          >
-            <Plus size={24} />
-            Adicionar
-          </button>
+
+          <Dialog.Root>
+            <Dialog.Trigger asChild>
+              <button
+                type="submit"
+                className="flex flex-row items-center justify-center gap-4 bg-gradient-to-tl from-orange-700 via-orange-400 to-amber-400 text-white font-bold rounded-md px-4 py-2 transition duration-300 ease-in-out hover:bg-opacity-10"
+              >
+                <Plus size={24} />
+                Adicionar
+              </button>
+            </Dialog.Trigger>
+
+            <TaskModal />
+          </Dialog.Root>
         </div>
         <input
           type="text"

@@ -2,6 +2,7 @@ import * as Alert from '@radix-ui/react-alert-dialog'
 import { useTasksStore } from '../../store'
 import { api } from '../../axios-api'
 import Cookies from 'js-cookie'
+import { infoToast } from '../../utils/info-toast'
 
 interface DeleteAlertProps {
   closeAlert: () => void
@@ -30,6 +31,7 @@ export function DeleteAlert({ closeAlert }: DeleteAlertProps) {
         const updatedTasksList = tasks.filter((t) => t.id !== selectedTaskId)
         addTasks(updatedTasksList)
         removeSelectedTaskId()
+        infoToast('Tarefa excluída!')
       })
       .catch((error) => console.error(error))
   }

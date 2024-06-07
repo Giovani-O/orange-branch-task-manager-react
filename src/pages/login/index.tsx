@@ -2,10 +2,11 @@ import { SignIn } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../axios-api'
 import { ChangeEvent, MouseEvent, useState } from 'react'
-import { Bounce, toast } from 'react-toastify'
 import { InputErrorMessage } from '../../components/input-error-message'
 import { TextInput } from '../../components/text-input'
 import Cookies from 'js-cookie'
+import { successToast } from '../../utils/success-toast'
+import { errorToast } from '../../utils/error-toast'
 
 export function Login() {
   const navigate = useNavigate()
@@ -36,17 +37,7 @@ export function Login() {
     api
       .post('api/Authentication/login', request)
       .then((response) => {
-        toast.success('Bem vindo!', {
-          position: 'top-right',
-          autoClose: 4000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-          transition: Bounce,
-        })
+        successToast('Bem vindo(a)!')
 
         Cookies.set('token-string', response.data.token, {
           expires: new Date(response.data.validTo),
@@ -55,17 +46,7 @@ export function Login() {
         navigate('/home')
       })
       .catch((error) => {
-        toast.error(error.response.data.title, {
-          position: 'top-right',
-          autoClose: 4000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-          transition: Bounce,
-        })
+        errorToast(error.response.data.title)
         setEmailError(error.response.data.errors['Email'][0] || '')
         setPasswordError(error.response.data.errors['Password'][0] || '')
       })

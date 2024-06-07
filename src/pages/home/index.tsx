@@ -7,6 +7,7 @@ import { useTasksStore } from '../../store'
 import * as Dialog from '@radix-ui/react-dialog'
 import { TaskModal } from '../../components/task-modal'
 import { useNavigate } from 'react-router-dom'
+import { infoToast } from '../../utils/info-toast'
 
 export function Home() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -40,6 +41,7 @@ export function Home() {
 
   function signOut() {
     Cookies.remove('token-string')
+    infoToast('Sessão encerrada')
     navigate('/')
   }
 

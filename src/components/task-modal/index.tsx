@@ -6,6 +6,7 @@ import { api } from '../../axios-api'
 import Cookies from 'js-cookie'
 import { useTasksStore } from '../../store'
 import { InputErrorMessage } from '../input-error-message'
+import { successToast } from '../../utils/success-toast'
 
 interface TaskModalProps {
   isOpen: boolean
@@ -68,6 +69,7 @@ export function TaskModal({ isOpen, onClose }: TaskModalProps) {
       .then((response) => {
         addTasks([...tasks, response.data])
         cleanTaskModal()
+        successToast('Tarefa adicionada!')
         onClose()
       })
       .catch((error) => {
@@ -96,6 +98,7 @@ export function TaskModal({ isOpen, onClose }: TaskModalProps) {
       .then((response) => {
         updateTask(response.data)
         cleanTaskModal()
+        successToast('Tarefa atualizada!')
         onClose()
       })
       .catch((error) => {

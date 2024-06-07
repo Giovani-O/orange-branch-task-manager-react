@@ -29,7 +29,6 @@ export function TaskModal({ isOpen, onClose }: TaskModalProps) {
   useEffect(() => {
     if (isOpen && selectedTaskId > 0) {
       const task = tasks.find((task) => task.id === selectedTaskId)
-      console.log('With this treasure i summon...')
       setTitle(task!.title)
       setDueDate(task!.dueDate)
       setDescription(task!.description)
@@ -143,6 +142,7 @@ export function TaskModal({ isOpen, onClose }: TaskModalProps) {
             inputType="text"
             value={title}
             placeholder="Título"
+            useLabel={true}
             errorMessage={titleError}
             handleChangeFunction={handleChangeTitle}
           />
@@ -152,17 +152,26 @@ export function TaskModal({ isOpen, onClose }: TaskModalProps) {
             inputType="date"
             value={dueDate}
             placeholder="Data de entrega"
+            useLabel={true}
             errorMessage={dueDateError}
             handleChangeFunction={handleChangeDueDate}
           />
           {dueDateError && <InputErrorMessage message={dueDateError} />}
 
-          <textarea
-            className={`px-4 py-2 border rounded-md w-[480px] max-lg:w-11/12 transition duration-300 ease-in-out focus:border-blue-400 focus:border-b outline-none`}
-            onChange={handleChangeDescription}
-            value={description}
-          />
-          {descriptionError && <InputErrorMessage message={descriptionError} />}
+          <div className="flex flex-col">
+            <label htmlFor="input" className="text-xs my-0 py-0">
+              Descrição
+            </label>
+            <textarea
+              className={`px-4 py-2 border rounded-md w-[480px] max-lg:w-11/12 transition duration-300 ease-in-out focus:border-blue-400 focus:border-b outline-none`}
+              onChange={handleChangeDescription}
+              value={description}
+              placeholder="Descrição"
+            />
+            {descriptionError && (
+              <InputErrorMessage message={descriptionError} />
+            )}
+          </div>
 
           <button
             type="submit"

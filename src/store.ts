@@ -31,3 +31,15 @@ export const useTasksStore = create<TaskStore>((set) => ({
   setSelectedTaskId: (id: number) => set({ selectedTaskId: id }),
   removeSelectedTaskId: () => set({ selectedTaskId: -1 }),
 }))
+
+interface UserStore {
+  username: string
+  setUsername(username: string): void
+  removeUsename(): void
+}
+
+export const useUserStore = create<UserStore>((set) => ({
+  username: '',
+  setUsername: (username: string) => set({ username: username }),
+  removeUsename: () => set({ username: '' }),
+}))

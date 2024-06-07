@@ -7,6 +7,7 @@ import { TextInput } from '../../components/text-input'
 import Cookies from 'js-cookie'
 import { successToast } from '../../utils/success-toast'
 import { errorToast } from '../../utils/error-toast'
+import { useUserStore } from '../../store'
 
 export function Login() {
   const navigate = useNavigate()
@@ -14,6 +15,8 @@ export function Login() {
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+
+  const { setUsername } = useUserStore()
 
   function handleEmailChange(event: ChangeEvent<HTMLInputElement>) {
     setEmail(event.target.value)
@@ -42,6 +45,8 @@ export function Login() {
         Cookies.set('token-string', response.data.token, {
           expires: new Date(response.data.validTo),
         })
+
+        setUsername(response.data.userName)
 
         navigate('/home')
       })

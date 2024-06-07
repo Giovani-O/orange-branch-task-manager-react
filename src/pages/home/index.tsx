@@ -3,7 +3,7 @@ import { ListItem } from '../../components/list-item'
 import { api } from '../../axios-api'
 import { ChangeEvent, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
-import { Task, useTasksStore } from '../../store'
+import { Task, useTasksStore, useUserStore } from '../../store'
 import * as Dialog from '@radix-ui/react-dialog'
 import { TaskModal } from '../../components/task-modal'
 import { useNavigate } from 'react-router-dom'
@@ -13,6 +13,7 @@ export function Home() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [filteredTasks, setFilteredTasks] = useState([] as Task[])
   const { tasks, addTasks } = useTasksStore()
+  const { username, removeUsename } = useUserStore()
   const navigate = useNavigate()
 
   function openDialog() {
@@ -51,6 +52,7 @@ export function Home() {
 
   function signOut() {
     Cookies.remove('token-string')
+    removeUsename()
     infoToast('Sessão encerrada')
     navigate('/')
   }
@@ -68,7 +70,7 @@ export function Home() {
         </h1>
         <div className="flex gap-4">
           <h1 className="max-sm:hidden flex flex-row items-center justify-center text-md">
-            Olá, Usuário
+            Olá, {username}
           </h1>
           <button
             onClick={signOut}

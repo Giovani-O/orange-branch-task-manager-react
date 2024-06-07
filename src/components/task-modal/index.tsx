@@ -28,10 +28,22 @@ export function TaskModal({ isOpen, onClose }: TaskModalProps) {
 
   useEffect(() => {
     if (isOpen && selectedTaskId > 0) {
-      const task = tasks.find((task) => task.id === selectedTaskId)
-      setTitle(task!.title)
-      setDueDate(task!.dueDate)
-      setDescription(task!.description)
+      // Ao invés de buscar a task na store, use a API
+      // const task = tasks.find((task) => task.id === selectedTaskId)
+      api
+        .get(`/api/Tasks/GetTask?id=${selectedTaskId}`, {
+          headers: {
+            Authorization: `Bearer ${tokenCookie}`,
+          },
+        })
+        .then((response) => {
+          setTitle(response.data!.title)
+          setDueDate(response.data!.dueDate)
+          setDescription(response.data!.description)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   }, [isOpen])
 

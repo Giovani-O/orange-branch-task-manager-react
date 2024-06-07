@@ -80,6 +80,7 @@ export function Register() {
         <h1 className="font-bold text-xl text-zinc-700">Cadastre-se</h1>
         <TextInput
           inputType="text"
+          value={name}
           placeholder="Nome"
           errorMessage={nameError}
           handleChangeFunction={handleNameChange}
@@ -87,6 +88,7 @@ export function Register() {
         {nameError && <InputErrorMessage message={nameError} />}
         <TextInput
           inputType="email"
+          value={email}
           placeholder="Email"
           errorMessage={emailError}
           handleChangeFunction={handleEmailChange}
@@ -94,6 +96,7 @@ export function Register() {
         {emailError && <InputErrorMessage message={emailError} />}
         <TextInput
           inputType="password"
+          value={password}
           placeholder="Senha"
           errorMessage={passwordError}
           handleChangeFunction={handlePasswordChange}

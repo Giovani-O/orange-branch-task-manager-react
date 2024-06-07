@@ -91,6 +91,7 @@ export function Login() {
 
         <TextInput
           inputType="email"
+          value={email}
           placeholder="Email"
           errorMessage={emailError}
           handleChangeFunction={handleEmailChange}
@@ -98,6 +99,7 @@ export function Login() {
         {emailError && <InputErrorMessage message={emailError} />}
         <TextInput
           inputType="password"
+          value={password}
           placeholder="Senha"
           errorMessage={passwordError}
           handleChangeFunction={handlePasswordChange}

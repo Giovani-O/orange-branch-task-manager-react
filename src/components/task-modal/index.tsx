@@ -1,17 +1,18 @@
 import { X } from '@phosphor-icons/react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { TextInput } from '../text-input'
-import { ChangeEvent, MouseEvent, useState } from 'react'
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 import { api } from '../../axios-api'
 import Cookies from 'js-cookie'
 import { useTasksStore } from '../../store'
 import { InputErrorMessage } from '../input-error-message'
 
 interface TaskModalProps {
-  closeDialog: () => void
+  isOpen: boolean
+  onClose: () => void
 }
 
-export function TaskModal({ closeDialog }: TaskModalProps) {
+export function TaskModal({ isOpen, onClose }: TaskModalProps) {
   const [title, setTitle] = useState('')
   const [dueDate, setDueDate] = useState(Date.now().toString())
   const [description, setDescription] = useState('')
@@ -24,9 +25,15 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
   const { tasks, addTasks, updateTask, selectedTaskId, removeSelectedTaskId } =
     useTasksStore()
 
-  const task = selectedTaskId
-    ? tasks.find((task) => task.id === selectedTaskId)
-    : null
+  useEffect(() => {
+    if (isOpen && selectedTaskId > 0) {
+      const task = tasks.find((task) => task.id === selectedTaskId)
+      console.log('With this treasure i summon...')
+      setTitle(task!.title)
+      setDueDate(task!.dueDate)
+      setDescription(task!.description)
+    }
+  }, [isOpen])
 
   function handleChangeTitle(event: ChangeEvent<HTMLInputElement>) {
     setTitle(event.target.value)
@@ -61,7 +68,7 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
       .then((response) => {
         addTasks([...tasks, response.data])
         cleanTaskModal()
-        closeDialog()
+        onClose()
       })
       .catch((error) => {
         setTitleError(error.response.data.errors['taskData'][0] || '')
@@ -89,7 +96,7 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
       .then((response) => {
         updateTask(response.data)
         cleanTaskModal()
-        closeDialog()
+        onClose()
       })
       .catch((error) => {
         setTitleError(error.response.data.errors['taskData'][0] || '')
@@ -109,7 +116,7 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
   }
 
   function closeAndCleanDialog() {
-    closeDialog()
+    onClose()
     cleanTaskModal()
   }
 
@@ -131,7 +138,7 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
         <form className="flex flex-col gap-6">
           <TextInput
             inputType="text"
-            value={task?.title}
+            value={title}
             placeholder="Título"
             errorMessage={titleError}
             handleChangeFunction={handleChangeTitle}
@@ -140,7 +147,7 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
 
           <TextInput
             inputType="date"
-            value={task?.dueDate}
+            value={dueDate}
             placeholder="Data de entrega"
             errorMessage={dueDateError}
             handleChangeFunction={handleChangeDueDate}
@@ -150,7 +157,7 @@ export function TaskModal({ closeDialog }: TaskModalProps) {
           <textarea
             className={`px-4 py-2 border rounded-md w-[480px] max-lg:w-11/12 transition duration-300 ease-in-out focus:border-blue-400 focus:border-b outline-none`}
             onChange={handleChangeDescription}
-            value={task?.description}
+            value={description}
           />
           {descriptionError && <InputErrorMessage message={descriptionError} />}
 

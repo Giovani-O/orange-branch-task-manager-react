@@ -44,7 +44,7 @@ export function ListItem({ id }: ListItemProps) {
             <Pencil size={24} />
           </button>
 
-          <TaskModal closeDialog={closeDialog} />
+          <TaskModal isOpen={isDialogOpen} onClose={closeDialog} />
         </Dialog.Root>
 
         <Alert.Root open={isAlertOpen}>

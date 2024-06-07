@@ -71,7 +71,7 @@ export function Home() {
               Adicionar
             </button>
 
-            <TaskModal closeDialog={closeDialog} />
+            <TaskModal isOpen={isDialogOpen} onClose={closeDialog} />
           </Dialog.Root>
         </div>
         <input

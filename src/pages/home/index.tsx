@@ -6,10 +6,12 @@ import Cookies from 'js-cookie'
 import { useTasksStore } from '../../store'
 import * as Dialog from '@radix-ui/react-dialog'
 import { TaskModal } from '../../components/task-modal'
+import { useNavigate } from 'react-router-dom'
 
 export function Home() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const { tasks, addTasks } = useTasksStore()
+  const navigate = useNavigate()
 
   function openDialog() {
     setIsDialogOpen(true)
@@ -36,6 +38,11 @@ export function Home() {
       })
   }
 
+  function signOut() {
+    Cookies.remove('token-string')
+    navigate('/')
+  }
+
   useEffect(() => {
     getTasks()
   }, [])
@@ -51,7 +58,10 @@ export function Home() {
           <h1 className="max-sm:hidden flex flex-row items-center justify-center text-md">
             Olá, Usuário
           </h1>
-          <button className="flex flex-row items-center justify-center gap-4 rounded-md px-4 py-1 border rounded-md transition duration-300 ease-in-out hover:bg-black hover:bg-opacity-10">
+          <button
+            onClick={signOut}
+            className="flex flex-row items-center justify-center gap-4 rounded-md px-4 py-1 border rounded-md transition duration-300 ease-in-out hover:bg-black hover:bg-opacity-10"
+          >
             Sair
             <SignOut size={25} />
           </button>

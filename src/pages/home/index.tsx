@@ -1,9 +1,9 @@
 import { OrangeSlice, Plus, SignOut } from '@phosphor-icons/react'
 import { ListItem } from '../../components/list-item'
 import { api } from '../../axios-api'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
-import { useTasksStore } from '../../store'
+import { Task, useTasksStore } from '../../store'
 import * as Dialog from '@radix-ui/react-dialog'
 import { TaskModal } from '../../components/task-modal'
 import { useNavigate } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { infoToast } from '../../utils/info-toast'
 
 export function Home() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [filteredTasks, setFilteredTasks] = useState([] as Task[])
   const { tasks, addTasks } = useTasksStore()
   const navigate = useNavigate()
 
@@ -33,10 +34,19 @@ export function Home() {
       .then((response) => {
         console.log(response)
         addTasks(response.data)
+        setFilteredTasks(response.data)
       })
       .catch((error) => {
         console.error(error)
       })
+  }
+
+  function handleTasksFilter(event: ChangeEvent<HTMLInputElement>) {
+    const filteredTasks = tasks.filter((task) =>
+      task.title.toLowerCase().includes(event.target.value.toLowerCase()),
+    )
+
+    setFilteredTasks(filteredTasks)
   }
 
   function signOut() {
@@ -90,9 +100,10 @@ export function Home() {
           type="text"
           placeholder="Busque por uma tarefa..."
           className="w-[1120px] max-lg:w-11/12 my-8 px-4 py-2 border-b border-gray-300 rounded-md transition duration-300 ease-in-out focus:border-blue-400 focus:border-b outline-none"
+          onChange={handleTasksFilter}
         />
 
-        {tasks.map((task) => (
+        {filteredTasks.map((task) => (
           <ListItem key={task.id} id={task.id} />
         ))}
       </main>

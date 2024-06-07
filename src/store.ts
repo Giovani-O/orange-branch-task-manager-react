@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-type Task = {
+export type Task = {
   id: number
   title: string
   description: string

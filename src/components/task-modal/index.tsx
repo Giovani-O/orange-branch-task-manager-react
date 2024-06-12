@@ -15,8 +15,10 @@ interface TaskModalProps {
 }
 
 export function TaskModal({ isOpen, onClose }: TaskModalProps) {
+  const dateNow = new Date().toISOString().split('T')[0]
+
   const [title, setTitle] = useState('')
-  const [dueDate, setDueDate] = useState(new Date().toISOString().split('T')[0])
+  const [dueDate, setDueDate] = useState(dateNow)
   const [description, setDescription] = useState('')
   const [titleError, setTitleError] = useState('')
   const [dueDateError, setDueDateError] = useState('')

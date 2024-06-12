@@ -1,5 +1,5 @@
 import { Pencil, Trash } from '@phosphor-icons/react'
-import { useTasksStore } from '../../store'
+import { useTasksStore } from '../../stores/tasksStore'
 import { format } from 'date-fns'
 import * as Dialog from '@radix-ui/react-dialog'
 import * as Alert from '@radix-ui/react-alert-dialog'

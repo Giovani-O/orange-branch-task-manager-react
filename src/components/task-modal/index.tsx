@@ -4,7 +4,7 @@ import { TextInput } from '../text-input'
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 import { api } from '../../axios-api'
 import Cookies from 'js-cookie'
-import { useTasksStore } from '../../store'
+import { useTasksStore } from '../../stores/tasksStore'
 import { InputErrorMessage } from '../input-error-message'
 import { successToast } from '../../utils/success-toast'
 

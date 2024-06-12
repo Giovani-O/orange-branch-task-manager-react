@@ -7,7 +7,7 @@ import { TextInput } from '../../components/text-input'
 import Cookies from 'js-cookie'
 import { successToast } from '../../utils/success-toast'
 import { errorToast } from '../../utils/error-toast'
-import { useUserStore } from '../../store'
+import { useUserStore } from '../../stores/userStore'
 
 export function Login() {
   const navigate = useNavigate()

@@ -1,5 +1,5 @@
 import * as Alert from '@radix-ui/react-alert-dialog'
-import { useTasksStore } from '../../store'
+import { useTasksStore } from '../../stores/tasksStore'
 import { api } from '../../axios-api'
 import Cookies from 'js-cookie'
 import { infoToast } from '../../utils/info-toast'

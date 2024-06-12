@@ -34,7 +34,6 @@ export function Home() {
         },
       })
       .then((response) => {
-        console.log(response)
         addTasks(response.data)
         setFilteredTasks(response.data)
       })

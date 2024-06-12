@@ -26,8 +26,7 @@ export function DeleteAlert({ closeAlert }: DeleteAlertProps) {
           Authorization: `Bearer ${tokenCookie}`,
         },
       })
-      .then((response) => {
-        console.log(response)
+      .then(() => {
         const updatedTasksList = tasks.filter((t) => t.id !== selectedTaskId)
         addTasks(updatedTasksList)
         closeAndCleanAlert()

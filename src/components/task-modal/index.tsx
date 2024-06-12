@@ -16,7 +16,7 @@ interface TaskModalProps {
 
 export function TaskModal({ isOpen, onClose }: TaskModalProps) {
   const [title, setTitle] = useState('')
-  const [dueDate, setDueDate] = useState(Date.now().toString())
+  const [dueDate, setDueDate] = useState(new Date().toISOString().split('T')[0])
   const [description, setDescription] = useState('')
   const [titleError, setTitleError] = useState('')
   const [dueDateError, setDueDateError] = useState('')
@@ -122,7 +122,7 @@ export function TaskModal({ isOpen, onClose }: TaskModalProps) {
 
   function cleanTaskModal() {
     setTitle('')
-    setDueDate(Date.now().toString())
+    setDueDate(new Date().toISOString().split('T')[0])
     setDescription('')
     setTitleError('')
     setDueDateError('')
@@ -163,7 +163,7 @@ export function TaskModal({ isOpen, onClose }: TaskModalProps) {
 
           <DateInput
             value={dueDate}
-            placeholder="Data de entrega"
+            label="Data de entrega"
             useLabel={true}
             errorMessage={dueDateError}
             handleChangeFunction={handleChangeDueDate}

@@ -36,7 +36,6 @@ export function Login() {
       password: password,
     }
 
-    console.log(request)
     api
       .post('api/Authentication/login', request)
       .then((response) => {

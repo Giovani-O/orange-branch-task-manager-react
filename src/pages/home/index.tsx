@@ -62,6 +62,10 @@ export function Home() {
     getTasks()
   }, [])
 
+  useEffect(() => {
+    setFilteredTasks(tasks)
+  }, [tasks])
+
   return (
     <div>
       <header className="flex items-center justify-between px-4 bg-transparent w-screen h-[60px] border-b border-gray-200 fixed">

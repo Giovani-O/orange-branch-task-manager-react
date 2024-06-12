@@ -16,14 +16,14 @@ export function DateInput({
   handleChangeFunction,
 }: DateInputProps) {
   function formattedValue() {
-    const dateValue = new Date(value)
+    const timestamp = Number(value)
+    const dateValue = new Date(timestamp)
+
     if (!isNaN(dateValue.getTime())) {
       return dateValue.toISOString().split('T')[0]
     } else {
       return new Date().toISOString().split('T')[0]
     }
-
-    return value
   }
 
   return (

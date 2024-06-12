@@ -30,7 +30,7 @@ export function DeleteAlert({ closeAlert }: DeleteAlertProps) {
         console.log(response)
         const updatedTasksList = tasks.filter((t) => t.id !== selectedTaskId)
         addTasks(updatedTasksList)
-        removeSelectedTaskId()
+        closeAndCleanAlert()
         infoToast('Tarefa excluída!')
       })
       .catch((error) => console.error(error))

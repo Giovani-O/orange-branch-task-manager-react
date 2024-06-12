@@ -1,7 +1,6 @@
 import { ChangeEvent } from 'react'
 
-interface TextInputProps {
-  inputType: 'text' | 'email' | 'password' | 'date'
+interface DateInputProps {
   value: string
   placeholder: string
   useLabel?: boolean
@@ -9,26 +8,23 @@ interface TextInputProps {
   handleChangeFunction: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
-export function TextInput({
-  inputType,
+export function DateInput({
   value,
   placeholder,
   useLabel = false,
   errorMessage,
   handleChangeFunction,
-}: TextInputProps) {
-  // function formattedValue() {
-  //   if (inputType === 'date' && value !== '') {
-  //     const dateValue = new Date(value)
-  //     if (!isNaN(dateValue.getTime())) {
-  //       return dateValue.toISOString().split('T')[0]
-  //     } else {
-  //       return new Date().toISOString().split('T')[0]
-  //     }
-  //   }
+}: DateInputProps) {
+  function formattedValue() {
+    const dateValue = new Date(value)
+    if (!isNaN(dateValue.getTime())) {
+      return dateValue.toISOString().split('T')[0]
+    } else {
+      return new Date().toISOString().split('T')[0]
+    }
 
-  //   return value
-  // }
+    return value
+  }
 
   return (
     <div className="flex flex-col">
@@ -41,8 +37,8 @@ export function TextInput({
       )}
       <input
         id="input"
-        type={inputType}
-        value={value}
+        type="date"
+        value={formattedValue()}
         placeholder={placeholder}
         className={`px-4 py-2 border-b ${
           errorMessage ? 'border-red-500' : 'border-gray-400'

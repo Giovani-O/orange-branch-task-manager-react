@@ -7,6 +7,7 @@ import Cookies from 'js-cookie'
 import { useTasksStore } from '../../stores/tasksStore'
 import { InputErrorMessage } from '../input-error-message'
 import { successToast } from '../../utils/success-toast'
+import { DateInput } from '../date-input'
 
 interface TaskModalProps {
   isOpen: boolean
@@ -160,8 +161,7 @@ export function TaskModal({ isOpen, onClose }: TaskModalProps) {
           />
           {titleError && <InputErrorMessage message={titleError} />}
 
-          <TextInput
-            inputType="date"
+          <DateInput
             value={dueDate}
             placeholder="Data de entrega"
             useLabel={true}

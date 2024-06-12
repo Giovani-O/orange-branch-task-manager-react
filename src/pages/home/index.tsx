@@ -1,21 +1,18 @@
-import { OrangeSlice, Plus, SignOut } from '@phosphor-icons/react'
+import { Plus } from '@phosphor-icons/react'
 import { ListItem } from '../../components/list-item'
 import { api } from '../../axios-api'
 import { ChangeEvent, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { Task, useTasksStore } from '../../stores/tasksStore'
-import { useUserStore } from '../../stores/userStore'
 import * as Dialog from '@radix-ui/react-dialog'
 import { TaskModal } from '../../components/task-modal'
-import { useNavigate } from 'react-router-dom'
-import { infoToast } from '../../utils/info-toast'
+
+import { Header } from '../../components/header'
 
 export function Home() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [filteredTasks, setFilteredTasks] = useState([] as Task[])
   const { tasks, addTasks } = useTasksStore()
-  const { username, removeUsename } = useUserStore()
-  const navigate = useNavigate()
 
   function openDialog() {
     setIsDialogOpen(true)
@@ -50,13 +47,6 @@ export function Home() {
     setFilteredTasks(filteredTasks)
   }
 
-  function signOut() {
-    Cookies.remove('token-string')
-    removeUsename()
-    infoToast('Sessão encerrada')
-    navigate('/')
-  }
-
   useEffect(() => {
     getTasks()
   }, [])
@@ -67,24 +57,7 @@ export function Home() {
 
   return (
     <div>
-      <header className="flex items-center justify-between px-4 bg-transparent w-screen h-[60px] border-b border-gray-200 fixed">
-        <h1 className="flex flex-row items-center justify-center gap-4 text-2xl">
-          <OrangeSlice size={32} weight="fill" />
-          Orange Tasks
-        </h1>
-        <div className="flex gap-4">
-          <h1 className="max-sm:hidden flex flex-row items-center justify-center text-md">
-            Olá, {username}
-          </h1>
-          <button
-            onClick={signOut}
-            className="flex flex-row items-center justify-center gap-4 rounded-md px-4 py-1 border rounded-md transition duration-300 ease-in-out hover:bg-black hover:bg-opacity-10"
-          >
-            Sair
-            <SignOut size={25} />
-          </button>
-        </div>
-      </header>
+      <Header />
       <main className="flex flex-col items-center justify-start pt-[94px] h-screen">
         <div className="w-[1120px] max-lg:w-11/12 h-8 flex items-center justify-between">
           <h1 className="text-2xl">Tarefas</h1>

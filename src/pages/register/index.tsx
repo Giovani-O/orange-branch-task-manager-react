@@ -48,10 +48,10 @@ export function Register() {
         setTimeout(() => navigate('/'), 5000)
       })
       .catch((error) => {
-        errorToast(error.response.data.title)
-        setNameError(error.response.data.errors['Username'][0] || '')
-        setEmailError(error.response.data.errors['Email'][0] || '')
-        setPasswordError(error.response.data.errors['Password'][0] || '')
+        errorToast(error.message)
+        setNameError(error.response.data.errorMessages.Username || '')
+        setEmailError(error.response.data.errorMessages.Email || '')
+        setPasswordError(error.response.data.errorMessages.Password || '')
       })
   }
 

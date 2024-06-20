@@ -50,9 +50,9 @@ export function Login() {
         navigate('/home')
       })
       .catch((error) => {
-        errorToast(error.response.data.title)
-        setEmailError(error.response.data.errors['Email'][0] || '')
-        setPasswordError(error.response.data.errors['Password'][0] || '')
+        errorToast(error.message)
+        setEmailError(error.response.data.errorMessages.Email || '')
+        setPasswordError(error.response.data.errorMessages.Password || '')
       })
   }
 

@@ -87,9 +87,9 @@ export function TaskModal({ isOpen, onClose }: TaskModalProps) {
         onClose()
       })
       .catch((error) => {
-        setTitleError(error.response.data.errors['taskData'][0] || '')
-        setDueDateError(error.response.data.errors['dueDate'][0] || '')
-        setDescriptionError(error.response.data.errors['description'][0] || '')
+        setTitleError(error.response.data.errorMessages.Title || '')
+        setDueDateError(error.response.data.errorMessages.DueDate || '')
+        setDescriptionError(error.response.data.Description || '')
       })
   }
 
@@ -116,9 +116,9 @@ export function TaskModal({ isOpen, onClose }: TaskModalProps) {
         onClose()
       })
       .catch((error) => {
-        setTitleError(error.response.data.errors['taskData'][0] || '')
-        setDueDateError(error.response.data.errors['dueDate'][0] || '')
-        setDescriptionError(error.response.data.errors['description'][0] || '')
+        setTitleError(error.response.data.errorMessages.Title || '')
+        setDueDateError(error.response.data.errorMessages.DueDate || '')
+        setDescriptionError(error.response.data.Description || '')
       })
   }
 

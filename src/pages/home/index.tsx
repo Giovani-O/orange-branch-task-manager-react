@@ -1,7 +1,7 @@
 import { Plus } from '@phosphor-icons/react'
 import { ListItem } from '../../components/list-item'
 import { api } from '../../axios-api'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState, useRef } from 'react'
 import Cookies from 'js-cookie'
 import { Task, useTasksStore } from '../../stores/tasksStore'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -13,6 +13,8 @@ export function Home() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [filteredTasks, setFilteredTasks] = useState([] as Task[])
   const { tasks, addTasks } = useTasksStore()
+
+  const dialogStatusRef = useRef(isDialogOpen)
 
   function openDialog() {
     setIsDialogOpen(true)
@@ -54,6 +56,13 @@ export function Home() {
   useEffect(() => {
     setFilteredTasks(tasks)
   }, [tasks])
+
+  useEffect(() => {
+    if (dialogStatusRef.current === true && isDialogOpen === false) {
+      getTasks()
+    }
+    dialogStatusRef.current = isDialogOpen
+  }, [isDialogOpen])
 
   return (
     <div>

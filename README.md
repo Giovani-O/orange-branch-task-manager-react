@@ -7,7 +7,7 @@ Front end for [Orange Branch Task Manager](https://github.com/Giovani-O/OrangeBr
 ## How to run
 Clone this repository in your machine, and then in the project's directory, run these commands in your terminal of choice:
 
-`npm i` e `npm run dev`
+`npm i` and `npm run dev`
 
 After this, your terminal should show you a localhost address, access it in your browser.
 

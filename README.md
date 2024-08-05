@@ -1,4 +1,4 @@
-# React + TypeScript + Vite
+# Orange Tasks
 
 Front end for [Orange Branch Task Manager](https://github.com/Giovani-O/OrangeBranchTaskManager), developed with React, Tailwind, Axios and Zustand.
 

@@ -1,30 +1,15 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Front end for [Orange Branch Task Manager](https://github.com/Giovani-O/OrangeBranchTaskManager), developed with React, Tailwind, Axios and Zustand.
 
-Currently, two official plugins are available:
+![Screenshot from 2024-08-05 14-40-09](https://github.com/user-attachments/assets/fcb2cc95-9fee-41b0-80b6-33d145582344)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How to run
+Clone this repository in your machine, and then in the project's directory, run these commands in your terminal of choice:
 
-## Expanding the ESLint configuration
+`npm i` e `npm run dev`
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+After this, your terminal should show you a localhost address, access it in your browser.
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
